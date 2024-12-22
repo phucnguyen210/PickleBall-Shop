@@ -41,7 +41,7 @@
 
 
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('logo/logo_caulong.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('logo/fav.png') }}">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,9 +64,10 @@
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
 				<a href="{{ route('account.profile')}}" class="nav-link text-dark">
                     @if (Auth::check())
-                        {{Auth::user()->name}}
+                        {{-- {{Auth::user()->name}} --}}
+						My account
                     @else
-                        My Account
+                        Login
                     @endif
 
                 </a>
@@ -87,7 +88,7 @@
 	<div class="container">
 		<nav class="navbar navbar-expand-xl" id="navbar">
 			<a href="{{route('front.home')}}" class="text-decoration-none mobile-logo">
-				<span class="h2 text-uppercase text-primary bg-dark">MINH CHI</span>
+				<span class="h2 text-uppercase text-primary bg-dark">HP</span>
 				<span class="h2 text-uppercase text-white px-2">SHOP</span>
 			</a>
 			<button class="navbar-toggler menu-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +112,7 @@
                                             <li><a class="dropdown-item nav-link" href="{{ route('front.shop', [$category->slug, $sub_category->slug]) }}">{{$sub_category->name}}</a></li>
                                         @endforeach
                                     </ul>
-
+								
                                 @endif
 
                             </li>

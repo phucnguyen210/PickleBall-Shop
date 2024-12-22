@@ -98,7 +98,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
 
-            <strong>Copyright &copy; 2024 minhhchi.
+            <strong>Copyright &copy; 2024 PhucHoang.
         </footer>
 
     </div>

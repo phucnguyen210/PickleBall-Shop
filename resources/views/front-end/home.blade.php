@@ -10,15 +10,15 @@
 
                         <picture>
                             <source media="(max-width: 799px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong.png') }}" />
+                                srcset="{{ asset('frontend-asset/images/joola-gen3s-slide1.jpg') }}" />
                             <source media="(min-width: 800px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong.png') }}" />
-                            <img src="{{ asset('frontend-asset/images/slide-caulong.png') }}" alt="" />
+                                srcset="{{ asset('frontend-asset/images/joola-gen3s-slide1.jpg') }}" />
+                            <img src="{{ asset('frontend-asset/images//joola-gen3s-slide1.jpg') }}" alt="" />
                         </picture>
 
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">Badminton</h1>
+                                <h1 class="display-4 text-white mb-3">Pickle Ball</h1>
                                 {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                                 <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop') }}">Shop
                                     Now</a>
@@ -30,15 +30,15 @@
 
                         <picture>
                             <source media="(max-width: 799px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong-2.png') }}" />
+                                srcset="{{ asset('frontend-asset/images/team-joola-no1-slide2.jpg') }}" />
                             <source media="(min-width: 800px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong-2.png') }}" />
-                            <img src="{{ asset('frontend-asset/images/slide-caulong-2.png') }}" alt="" />
+                                srcset="{{ asset('frontend-asset/images/team-joola-no1-slide2.jpg') }}" />
+                            <img src="{{ asset('frontend-asset/images/team-joola-no1-slide2.jpg') }}" alt="" />
                         </picture>
 
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">Badminton</h1>
+                                <h1 class="display-4 text-white mb-3">Pickle Ball</h1>
                                 {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                                 <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                             </div>
@@ -49,15 +49,15 @@
 
                         <picture>
                             <source media="(max-width: 799px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong.png') }}" />
+                                srcset="{{ asset('frontend-asset/images/ben-johns-slide3.jpg') }}" />
                             <source media="(min-width: 800px)"
-                                srcset="{{ asset('frontend-asset/images/slide-caulong.png') }}" />
-                            <img src="{{ asset('frontend-asset/images/slide-caulong.png') }}" alt="" />
+                                srcset="{{ asset('frontend-asset/images/ben-johns-slide3.jpg') }}" />
+                            <img src="{{ asset('frontend-asset/images/ben-johns-slide3.jpg') }}" alt="" />
                         </picture>
 
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">Badminton</h1>
+                                <h1 class="display-4 text-white mb-3">Pickle Ball</h1>
                                 {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                                 <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                             </div>

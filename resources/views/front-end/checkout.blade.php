@@ -228,7 +228,7 @@
     $("#orderForm").submit(function(event){
         event.preventDefault();
         let element = $(this);
-        $('button[type="submit"]').prop('disabled', true);
+        // $('button[type="submit"]').prop('disabled', true);
         $.ajax({
             url: `{{ route('front.processCheckout')}}`,
             type: 'POST',

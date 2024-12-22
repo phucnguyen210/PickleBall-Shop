@@ -271,12 +271,13 @@ class ProductController extends Controller
             ]);
         }
 
-        $imageProduct = ProductImage::where('product_id', $product->id)->get();
-        if (!empty($imageProduct)) {
-            foreach ($imageProduct as $imageProducts) {
-                File::delete(public_path('uploads/product/large/' . $imageProducts->image));
-                File::delete(public_path('uploads/product/small/' . $imageProducts->image));
+        $productImages = ProductImage::where('product_id', $product->id)->get();
+        if (!empty($productImages)) {
+            foreach ($productImages as $productImage) {
+                File::delete(public_path('uploads/product/large/' . $productImage->image));
+                File::delete(public_path('uploads/product/small/' . $productImage->image));
             }
+            ProductImage::where('product_id',$id)->delete();
         }
 
         $product->delete();
