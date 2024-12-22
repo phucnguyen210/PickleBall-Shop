@@ -63,7 +63,7 @@
                             <i class="fas fa-user-cog mr-2"></i> Settings
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ route('setting.showChangePasswordForm')}}" class="dropdown-item">
                             <i class="fas fa-lock mr-2"></i> Change Password
                         </a>
                         <div class="dropdown-divider"></div>
@@ -80,9 +80,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="{{ asset('admin-assets/img/AdminLTELogo.png') }}" alt=" LOGO"
+                <img src="{{ asset('admin-assets/img/MINHCHI_LOGO.png') }}" alt="MINHCHI LOGO"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PhucHoang</span>
+                <span class="brand-text font-weight-light">HP</span>
             </a>
             <!-- Sidebar -->
             @include('admin.layouts.sidebar')
@@ -98,7 +98,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
 
-            <strong>Copyright &copy; 2024 PhucHoang.
+            <strong>Copyright &copy; 2024 PHUCHOANG.
         </footer>
 
     </div>

@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Create Product')
 @section('content')
     <section class="content-header">
         <div class="container-fluid my-2">
@@ -15,7 +16,7 @@
     </section>
     <section class="content">
         <!-- Default box -->
-        <form action="" method="POST" name="productForm" id="productForm" enctype="multipart/form-data">
+        <form action="" method="POST" name="productForm" id="productForm">
             @csrf
             <div class="container-fluid">
                 <div class="row">
@@ -160,9 +161,9 @@
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select a Category</option>
 
-                                        @if ($categories->isNotEmpty())
-                                            @foreach ($categories as $category)
-                                                <option  value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @if ($category->isNotEmpty())
+                                            @foreach ($category as $item)
+                                                <option  value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                             <p class="error"></p>
 
@@ -184,9 +185,9 @@
                                 <div class="mb-3">
                                     <select name="brand" id="brand" class="form-control">
                                         <option value="">Select a brand</option>
-                                        @if ($brands->isNotEmpty())
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        @if ($brand->isNotEmpty())
+                                            @foreach ($brand as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -299,6 +300,8 @@
                         $.each(errors, function(key,value){
                             $(`#${key}`).addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(value);
                         });
+
+
                     }
                 },
 
@@ -332,7 +335,7 @@
         });
 
 
-        // tạo 1 khu vực để tải lên tệp tin cho phép người dùng kéo thả hoặc nhấp vào khu vực đó để upload file lên
+         // tạo 1 khu vực để tải lên tệp tin cho phép người dùng kéo thả hoặc nhấp vào khu vực đó để upload file lên
         Dropzone.autoDiscover = false; // vô hiệu hóa việc tự động phát hiện dropzone để tránh các lỗi không kiểm soát được
         const dropzone = $("#image").dropzone({ // khởi tạo thủ công dropzone có id 'image'
             init: function() {
@@ -351,6 +354,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(file, response) {
+                console.log(response);
                 let html = `
                     <div class="col-md-3">
                         <div class="card" id="image-row-${response.image_id}">

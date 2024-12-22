@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactEmail;
+use App\Models\Page;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class FrontController extends Controller
 {
@@ -53,17 +58,58 @@ class FrontController extends Controller
                     'user_id' => Auth::user()->id,
                     'product_id' => $request->id
                 ]);
-            // $user_id = auth::user();
-            // $wishlist = new Wishlist();
-            // $wishlist->product_id = $request->id;
-            // $wishlist->user_id = $user_id->id;
-            // $wishlist->save();
+
 
 
 
             return response()->json([
                 'status' => true,
                 'message' => '<div class="alert alert-success"><strong>"'.$product->title.'"</strong> added in you wishlist</div>',
+            ]);
+        }
+    }
+
+    public function page($slug){
+        $pages =  Page::where('slug', $slug)->first();
+
+        if (!$pages) {
+            // Có thể chuyển hướng hoặc trả về một trang lỗi tùy chỉnh
+            return redirect()->route('front.home')->with('error', 'Page not found.');
+        }
+        return view('front-end.pages', compact('pages'));
+
+    }
+
+    public function sendContactEmail(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'subject' =>'required'
+        ]);
+
+        if($validator->passes()){
+
+            // send email here
+            $mailData = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'mail_subject' => 'You have received a contact email'
+            ];
+
+            $email = env('ADMIN_EMAIL');
+
+
+            Mail::to($email)->send( new ContactEmail($mailData));
+            return response()->json([
+                'status' => true,
+                'message' => 'Your feedback has been sent successfully.'
+            ]);
+        }else{
+            return response()->json([
+                'status'=> false,
+                'errors' => $validator->errors(),
             ]);
         }
     }

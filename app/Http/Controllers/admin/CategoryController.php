@@ -78,7 +78,7 @@ class CategoryController extends Controller
                 // create instance
                 $dPath = public_path() . '/uploads/category/thumb/' . $newImageName;
                 $img = Image::make($sPath);
-                $img->resize(300, 300, function ($constraint) {
+                $img->resize(300, 300, function($constraint){
                     $constraint->aspectRatio();
                 })->orientate();
                 $img->save($dPath);
@@ -115,12 +115,13 @@ class CategoryController extends Controller
 
     {
         $categories = Category::findOrFail($id);
-        if (empty($categories)) {
+        if(empty($categories)){
             Session::flash('error', 'categories not found!');
             return redirect()->route('admin.categories');
-        } else {
+        }else{
             return view('admin.categories.edit', compact('categories'));
         }
+
     }
 
     /**
@@ -202,6 +203,8 @@ class CategoryController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
+
+
     }
 
     /**
@@ -217,7 +220,7 @@ class CategoryController extends Controller
                 // Session::flash('error', 'Category not found!');
 
                 return response()->json([
-                    'status' => false,
+                    'status' => 'error',
                     'message' => 'Category not found'
                 ]);
             }
@@ -234,14 +237,9 @@ class CategoryController extends Controller
                 if (File::exists($thumbPath)) {
                     File::delete($thumbPath);
                 }
-
-               
             }
             Session::flash('success', 'Category deleted successfully');
-            return response()->json([
-                'status' => true,
-                'message' => 'Category deleted successfully'
-            ]);
+            return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
             Log::error('Error deleting category: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);

@@ -34,7 +34,7 @@
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="slug">Slug</label>
-                                    <input type="text" readonly name="slug" id="slug" class="form-control"
+                                    <input type="text" name="slug" id="slug" class="form-control"
                                         placeholder="Slug">
                                     <p class="invalid-feedback"></p>
                                 </div>
@@ -151,7 +151,7 @@
 
             $.ajax({
 
-                url: '{{ route('getSlug') }}', 
+                url: '{{ route('getSlug') }}', // Đảm bảo route đúng
                 type: 'GET',
                 data: {
                     title: element.val()
@@ -181,7 +181,7 @@
             maxFiles: 1,
             paramName: 'image',
             addRemoveLinks: true, // thêm 1 liên kết cho người dùng xóa tệp tin đã thêm
-            acceptedFiles: "image/jpeg, image/png, image/gif,, image/jpg", // các loại tệp tin được chấp nhận
+            acceptedFiles: "image/jpeg, image/png, image/gif", // các loại tệp tin được chấp nhận
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },

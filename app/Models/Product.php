@@ -15,4 +15,7 @@ class Product extends Model
     public function order_itmes(){
         return $this->hasMany(OrderItem::class); // thiết lập mối quan hệ 1 nhiều với bảng order_items
     }
+    public function product_ratings(){
+        return $this->hasMany(ProductRating::class)->where('status',1);
+    }
 }

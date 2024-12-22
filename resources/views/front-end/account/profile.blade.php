@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Email</label>
-                                        <input type="text" name="email" id="email" readonly value="{{ $user->email}}" placeholder="Enter Your Email" class="form-control">
+                                        <input type="text" name="email" id="email" value="{{ $user->email}}" readonly placeholder="Enter Your Email" class="form-control">
                                         <p class="invalid-feedback"></p>
 
                                     </div>

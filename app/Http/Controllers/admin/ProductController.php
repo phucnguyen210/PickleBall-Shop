@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use App\Models\TempImage;
+use App\Models\ProductRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
@@ -26,9 +27,9 @@ class ProductController extends Controller
     {
         $product = Product::latest('id')->with('product_images'); // truy vấn tới bảng product, sắp xếp thứ thự theo trường Id, nạp trước các trường liên quan đến từng sản phẩm
 
-        if ($request->has('keyword') && !empty($request->keyword)) {
+        if($request->has('keyword') && !empty($request->keyword)){
             $searchTerm = $request->keyword;
-            $product->where('products.title', 'like', '%' . $searchTerm . '%');
+            $product->where('products.title', 'like', '%'. $searchTerm .'%');
         }
         $products = $product->paginate();
 
@@ -40,12 +41,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'ASC')->get();
-        $brands = Brand::orderBy('name', 'ASC')->get();
+        $category = Category::orderBy('name', 'ASC')->get();
+        $brand = Brand::orderBy('name', 'ASC')->get();
 
-        $data['categories'] = $categories;
-        $data['brands'] = $brands;
-        return view('admin.products.create', $data);
+        return view('admin.products.create', compact('category', 'brand'));
     }
 
     /**
@@ -66,12 +65,12 @@ class ProductController extends Controller
             'is_featured' => 'required|in:Yes,No'
 
         ];
-        if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
+        if(!empty($request->track_qty) && $request->track_qty == 'Yes'){
             $rules['qty'] = 'required|numeric';
         }
 
         $validator = Validator::make($request->all(), $rules);
-        if ($validator->passes()) {
+        if( $validator->passes()){
             $product = new Product();
             $product->title = $request->title;
             $product->slug = $request->slug;
@@ -96,8 +95,8 @@ class ProductController extends Controller
             $product->save();
 
             // Product garllery save
-            if (!empty($request->image_array)) {
-                foreach ($request->image_array as $temp_image_id) {
+            if(!empty($request->image_array)){
+                foreach($request->image_array as $temp_image_id){
                     $tempImageInfo = TempImage::find($temp_image_id);
                     $extArray = explode('.', $tempImageInfo->name);  // phân tách tên của ảnh thành 1 mảng gồm 2 phần (trước và sau dấu '.')
                     $ext = last($extArray);
@@ -108,25 +107,25 @@ class ProductController extends Controller
                     $productImage->image =  'NULL';
                     $productImage->save();
 
-                    $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext; // tạo tên mới cho image
+                    $imageName = $product->id.'-'.$productImage->id.'-'.time(). '.' .$ext; // tạo tên mới cho image
                     $productImage->image = $imageName; // gán tên mới vào cột image trong bảng ProductImage
                     $productImage->save();
 
                     // Taọ hình ảnh thu nhỏ cho sản phẩm
 
                     // Large image
-                    $sourcePath = public_path() . '/temp/' . $tempImageInfo->name;
-                    $destPathLarge = public_path() . '/uploads/product/large/' . $imageName;
+                    $sourcePath = public_path().'/temp/'. $tempImageInfo->name;
+                    $destPathLarge = public_path().'/uploads/product/large/'. $imageName;
                     $image = Image::make($sourcePath);
-                    $image->resize(1400, null, function ($constraint) {
+                    $image->resize(1400, null, function($constraint){
                         $constraint->aspectRatio();
                     })->orientate();
                     $image->save($destPathLarge);
 
                     // Small image
-                    $destPathSmall = public_path() . '/uploads/product/small/' . $imageName;
+                    $destPathSmall = public_path().'/uploads/product/small/'.$imageName;
                     $image = Image::make($sourcePath);
-                    $image->resize(300, 300, function ($constraint) {
+                    $image->resize(300, 300, function($constraint){
                         $constraint->aspectRatio();
                     })->orientate();
                     $image->save($destPathSmall);
@@ -138,11 +137,12 @@ class ProductController extends Controller
                 'status' => true,
                 'message' => 'Product added successfully',
             ]);
-        } else {
+        }
+        else{
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
-            ]);
+                ]);
         }
     }
 
@@ -160,7 +160,7 @@ class ProductController extends Controller
     public function edit(Request $request, $id)
     {
         $product = Product::find($id);
-        if (empty($product)) {
+        if(empty($product)){
             Session::flash('error', 'Product not found!');
             return redirect()->route('product.index');
         }
@@ -173,8 +173,8 @@ class ProductController extends Controller
 
         // fetch product iamge
         $relatedProduct = [];
-        if ($product->related_product != "") {
-            $relatedProductArray = explode(',', $product->related_product);
+        if($product->related_product != ""){
+            $relatedProductArray = explode(',',$product->related_product);
             $relatedProduct = Product::whereIn('id', $relatedProductArray)->get();
         }
 
@@ -188,7 +188,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        if (empty($product)) {
+        if(empty($product)){
             return response()->json([
                 'status' => false,
                 'notFound' => true,
@@ -200,22 +200,22 @@ class ProductController extends Controller
 
         $rules = [
             'title' => 'required',
-            'slug' => 'required|unique:products,slug,' . $product->id . ',id', //khi kiểm tra tính duy nhất, bỏ qua bản ghi hiện tại có id là $product->id.
+            'slug' => 'required|unique:products,slug,'.$product->id.',id', //khi kiểm tra tính duy nhất, bỏ qua bản ghi hiện tại có id là $product->id.
             'description' => 'required',
             'short_description' => 'required',
             'price' => 'required',
-            'sku' => 'required|unique:products,sku,' . $product->id . ',id', //khi kiểm tra tính duy nhất, bỏ qua bản ghi hiện tại có id là $product->id.
+            'sku' => 'required|unique:products,sku,'.$product->id.',id', //khi kiểm tra tính duy nhất, bỏ qua bản ghi hiện tại có id là $product->id.
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No'
 
         ];
-        if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
+        if(!empty($request->track_qty) && $request->track_qty == 'Yes'){
             $rules['qty'] = 'required|numeric';
         }
 
         $validator = Validator::make($request->all(), $rules);
-        if ($validator->passes()) {
+        if( $validator->passes()){
             $product->title = $request->title;
             $product->slug = $request->slug;
             $product->description = $request->description;
@@ -248,11 +248,12 @@ class ProductController extends Controller
                 'status' => true,
                 'message' => 'Product updated successfully',
             ]);
-        } else {
+        }
+        else{
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
-            ]);
+                ]);
         }
     }
 
@@ -262,7 +263,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        if (empty($product)) {
+        if(empty($product)){
             Session::flash('error', 'Product not found');
             return response()->json([
                 'status' => false,
@@ -271,13 +272,12 @@ class ProductController extends Controller
             ]);
         }
 
-        $productImages = ProductImage::where('product_id', $product->id)->get();
-        if (!empty($productImages)) {
-            foreach ($productImages as $productImage) {
-                File::delete(public_path('uploads/product/large/' . $productImage->image));
-                File::delete(public_path('uploads/product/small/' . $productImage->image));
+        $imageProduct = ProductImage::where('product_id', $product->id)->get();
+        if(!empty($imageProduct)){
+            foreach( $imageProduct as $imageProducts){
+                File::delete(public_path('uploads/product/large/'.$imageProducts->image));
+                File::delete(public_path('uploads/product/small/'.$imageProducts->image));
             }
-            ProductImage::where('product_id',$id)->delete();
         }
 
         $product->delete();
@@ -286,17 +286,17 @@ class ProductController extends Controller
             'status' => true,
             'message' => 'Product deleted successfully'
         ]);
+
     }
-    public function getProduct(Request $request)
-    {
+    public function getProduct(Request $request){
 
         $term = $request->term;
         $termProduct = [];
-        if ($term != "") {
-            $products = Product::where('title', 'like', '%' . $term . '%')->get();
-            if ($products != null) {
-                foreach ($products as $product) {
-                    $termProduct[] = array('id' => $product->id, 'text' => $product->title);
+        if($term != ""){
+            $products = Product::where('title', 'like','%'.$term.'%')->get();
+            if($products != null){
+                foreach($products as $product){
+                    $termProduct[] = array('id' => $product->id, 'text' => $product-> title);
                 }
             }
         }
@@ -304,5 +304,36 @@ class ProductController extends Controller
             'tags' =>  $termProduct,
             'status' => true,
         ]);
+    }
+
+
+    public function productRatings(){
+        $ratings = ProductRating::select('product_ratings.*', 'products.title as productTitle')->orderBy('product_ratings.created_at', 'DESC');
+        $ratings = $ratings->leftJoin('products', 'products.id', 'product_ratings.product_id');
+        $ratings = $ratings->paginate(10);
+        return view('admin.products.rating', compact('ratings'));
+    }
+
+    public function changeRatingStatus(Request $request){
+        $productRating = ProductRating::find($request->id);
+
+        $productRating->status = $request->status;
+        $productRating->save();
+        session()->flash('success', 'Change rating status successfully');
+        return response()->json([
+            'status' => true,
+
+        ]);
+    }
+
+    public function deleteRating(Request $request){
+       $productRating = ProductRating::find($request->id);
+       $productRating->delete();
+       session()->flash('success', 'Rating delete successfully');
+       return response()->json([
+           'status' => true,
+
+       ]);
+
     }
 }

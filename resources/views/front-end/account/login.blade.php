@@ -46,7 +46,7 @@
                         @enderror
                     </div>
                     <div class="form-group small">
-                        <a href="#" class="forgot-link">Forgot Password?</a>
+                        <a href="{{ route('front.forgotPassword')}}" class="forgot-link">Forgot Password?</a>
                     </div>
                     <input type="submit" class="btn btn-outline-success" value="Login">
                 </form>

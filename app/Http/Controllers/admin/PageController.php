@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
-    public function index(){
-        $pages = Page::latest()->get();
+    public function index(Request $request){
+        $pages = Page::latest();
+        if($request->get('keyword') != ''){
+            $pages = $pages->where('pages.name', 'like', '%'.$request->keyword.'%');
+        }
+        $pages = $pages->paginate(10);
         return view('admin.pages.list', compact('pages'));
     }
 
@@ -52,11 +56,52 @@ class PageController extends Controller
         return view('admin.pages.edit', compact('pages'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $id){
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'slug' => 'required'
+        ]);
+
+        if($validator->passes()){
+            $pages = Page::find($id);
+            $pages->name = $request->name;
+            $pages->slug = $request->slug;
+            $pages->content = $request->content;
+            $pages->status = $request->status;
+            $pages->save();
+            session()->flash('success', 'Page updated successfully');
+            return response()->json([
+                'status' => true,
+                'message' => 'Page updated successfully'
+
+            ]);
+
+        }else{
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
 
     }
     public function destroy(Request $request){
+        $page = Page::find($request->id);
+        if($page != ''){
+            $page->delete();
+            session()->flash('success', 'Page deleted successfully');
+            return response()->json([
+                'status' => true,
+                'message' => 'Page deleted successfully'
+            ]);
 
+        }else{
+            session()->flash('error', 'Page not found');
+            return response()->json([
+                'status' => false,
+                'message' => 'Page not found'
+            ]);
+        }
     }
 
 }

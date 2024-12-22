@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\admin\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\admin\TempImagesController;
@@ -51,20 +52,33 @@ Route::post('/add-wishlist', [FrontController::class, 'addToWishlist'])->name('f
 Route::get('/wishlist', [AuthController::class, 'wishlish'])->name('front.wishlist');
 Route::post('/removeProductWishlist', [AuthController::class, 'removeProductWishlist'])->name('front.removeProductWishlist');
 
+// page
+Route::get('/page/{slug}', [FrontController::class, 'page'])->name('front.page');
+Route::post('/send-contact', [FrontController::class, 'sendContactEmail'])->name('front.sendContactEmail');
+
+// forgot password
+Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('front.forgotPassword');
+Route::post('/process-forgotpassword', [AuthController::class, 'processForgotPassword'])->name('front.processForgotPassword');
+Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('front.resetPassword');
+Route::post('/process-reset-password', [AuthController::class, 'processResetPassword'])->name('front.processResetPassword');
+
+// Rating
+Route::post('/save-rating-product/{id}', [ShopController::class, 'saveRating'])->name('front.saveRating');
+
+
 
 
 
 
 // Authentication User
-Route::prefix('/account')->group(function(){
-    Route::middleware('guest:web')->group( function(){ // gọi đến middleware guest để kiểm tra xem các route này đã đăng nhập hay chưa, nếu như đã đăng nhập rồi thì sẽ bị chuyển hướng sang route khác ở phần guest
+Route::prefix('/account')->group(function () {
+    Route::middleware('guest:web')->group(function () { // gọi đến middleware guest để kiểm tra xem các route này đã đăng nhập hay chưa, nếu như đã đăng nhập rồi thì sẽ bị chuyển hướng sang route khác ở phần guest
         Route::get('/register', [AuthController::class, 'register'])->name('account.register');
         Route::post('/process-register', [AuthController::class, 'processRegister'])->name('account.processRegister');
         Route::get('/login', [AuthController::class, 'login'])->name('account.login');
         Route::post('/login', [AuthController::class, 'authenticate'])->name('account.authenticate');
-
     });
-    Route::middleware('auth:web')->group(function(){
+    Route::middleware('auth:web')->group(function () {
         Route::get('/profile', [AuthController::class, 'profile'])->name('account.profile');
         Route::put('/updateProfile', [AuthController::class, 'updateProfile'])->name('account.updateProfile');
         Route::get('/logout', [AuthController::class, 'logout'])->name('account.logout');
@@ -72,8 +86,10 @@ Route::prefix('/account')->group(function(){
         Route::get('/order', [AuthController::class, 'orders'])->name('account.order');
         Route::get('/order-detail/{id}', [AuthController::class, 'orders_detail'])->name('account.order-detail');
 
+        // Change Password
+        Route::get('/show-password', [AuthController::class, 'showChangePassword'])->name('account.showChangePassword');
+        Route::put('/process-changepassword', [AuthController::class, 'processChangePassword'])->name('account.processChangePassword');
     });
-
 });
 
 
@@ -84,7 +100,6 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/', [AdminLoginController::class, 'index'])->name('admin.login');
         Route::post('/login', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
-
     });
 
 
@@ -118,18 +133,22 @@ Route::prefix('/admin')->group(function () {
         Route::delete('/brand/delete/{id}', [BrandController::class, 'destroy'])->name('brand.destroy');
 
         // Product Routes
-        Route::get('/product', [ProductController::class, 'index']) -> name('product.index');
-        Route::get('/product/create', [ProductController::class, 'create']) -> name('product.create');
-        Route::post('/product/store', [ProductController::class, 'store']) -> name('product.store');
-        Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
-        Route::put('/product/edit/{id}', [ProductController::class, 'update']) -> name('product.update');
-        Route::get('/product/profile{id}', [ProductController::class, 'show']) -> name('product.show');
-        Route::post('/product/store', [ProductController::class, 'store']) -> name('product.store');
-        Route::delete('/product/delete/{id}', [ProductController::class, 'destroy']) -> name('product.delete');
+        Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+        Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+        Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+        Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('/product/edit/{id}', [ProductController::class, 'update'])->name('product.update');
+        Route::get('/product/profile{id}', [ProductController::class, 'show'])->name('product.show');
+        Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
+        Route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
         Route::get('/get-products', [ProductController::class, 'getProduct'])->name('product.getProduct');
+        //product ratings
+        Route::get('/ratings', [ProductController::class, 'productRatings'])->name('product.rating');
+        Route::put('/change-ratings-status', [ProductController::class, 'changeRatingStatus'])->name('product.changeRatingStatus');
+        Route::delete('/delete-ratings', [ProductController::class, 'deleteRating'])->name('product.deleteRating');
 
         // Shipping Routes
-        // Route::get('/shipping', [ShippingController::class, 'show'])->name('shipping.show');
+
         Route::get('/shipping/create', [ShippingController::class, 'create'])->name('shipping.create');
         Route::post('/shipping-create', [ShippingController::class, 'store'])->name('shipping.store');
         Route::get('/shipping/edit/{id}', [ShippingController::class, 'edit'])->name('shipping.edit');
@@ -138,11 +157,11 @@ Route::prefix('/admin')->group(function () {
 
 
         // product-subcategorie
-        Route::get('/product-subcategories', [ProductSubCategoryController::class, 'create']) -> name('product-subcategories');
+        Route::get('/product-subcategories', [ProductSubCategoryController::class, 'create'])->name('product-subcategories');
 
         //product-image
-        Route::post('/product-image/update', [ProductImageController::class, 'update']) -> name('product-image.update');
-        Route::delete('/product-image', [ProductImageController::class, 'destroy']) -> name('product-image.destroy');
+        Route::post('/product-image/update', [ProductImageController::class, 'update'])->name('product-image.update');
+        Route::delete('/product-image', [ProductImageController::class, 'destroy'])->name('product-image.destroy');
 
         // DiscountCoupon Routes
         Route::get('/coupons', [DiscountCodeController::class, 'index'])->name('coupons.index');
@@ -170,9 +189,13 @@ Route::prefix('/admin')->group(function () {
         Route::get('/page', [PageController::class, 'index'])->name('page.index');
         Route::get('/page/create', [PageController::class, 'create'])->name('page.create');
         Route::post('/page-create', [PageController::class, 'store'])->name('page.store');
-        Route::get('/page/edit/{id}', [UserController::class, 'edit'])->name('page.edit');
-        // Route::put('/Users-update/{id}', [UserController::class, 'update'])->name('user.update');
-        // Route::delete('/Users-delete', [UserController::class, 'delete'])->name('user.delete');
+        Route::get('/page/edit/{id}', [PageController::class, 'edit'])->name('page.edit');
+        Route::put('/page-update/{id}', [PageController::class, 'update'])->name('page.update');
+        Route::delete('/page-delete', [PageController::class, 'destroy'])->name('page.delete');
+
+        // Setting
+        Route::get('/change-passwordadmin', [SettingController::class, 'showChangePasswordForm'])->name('setting.showChangePasswordForm');
+        Route::put('/process-changepasswordadmin', [SettingController::class, 'processChangePassword'])->name('setting.processChangePassword');
 
 
         //temp-image.create
