@@ -11,7 +11,8 @@ use Illuminate\Support\Carbon;
 
 class DiscountCodeController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $query = DiscountCoupon::query()->latest();
         if ($request->has('keyword') && !empty($request->keyword)) {
             $searchTerm = $request->keyword;
@@ -23,51 +24,48 @@ class DiscountCodeController extends Controller
     }
 
 
-    public function create(){
+    public function create()
+    {
         return view('admin.coupon.create');
     }
 
 
-    public function store(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'code' => 'required',
-            'type' =>'required',
+            'type' => 'required',
             'discount_amount' => 'required',
             'status' => 'required'
-
         ]);
 
-        if($validator->passes()){
+        if ($validator->passes()) {
 
 
             // kiểm tra ngày bắt đầu
-            if(!empty($request->start_at)){
+            if (!empty($request->start_at)) {
                 $now = Carbon::now();
                 $startAt = Carbon::createFromFormat('Y-m-d H:i:s', $request->start_at);
 
-                if($startAt -> lte($now) == true){ //  kiểm tra xem startAt có nhỏ hơn thời gian hiện tại hay không bằng lte(less than or equal to)
+                if ($startAt->lte($now) == true) { //  kiểm tra xem startAt có nhỏ hơn thời gian hiện tại hay không bằng lte(less than or equal to)
                     return response()->json([
                         'status' => false,
-                        'errors' =>['start_at' => 'Start date can not be less than current time'],
+                        'errors' => ['start_at' => 'Start date can not be less than current time'],
                     ]);
-
                 }
-
             }
 
             // kiểm tra ngày kết thúc
-            if(!empty($request->start_at) && !empty($request->expires_at)){
+            if (!empty($request->start_at) && !empty($request->expires_at)) {
                 $expriesAt = Carbon::createFromFormat('Y-m-d H:i:s', $request->expires_at);
                 $startAt = Carbon::createFromFormat('Y-m-d H:i:s', $request->start_at);
 
-                if($expriesAt -> gt($startAt) == false){ //  kiểm tra xem expriesAt có lớn hơn thời gian $startAt hay không bằng gt(greater than), nếu thời gian hết hạn nhỏ hơn thời gian bắt đầu thì trả về false còn if sẽ trả về true
+                if ($expriesAt->gt($startAt) == false) { //  kiểm tra xem expriesAt có lớn hơn thời gian $startAt hay không bằng gt(greater than), nếu thời gian hết hạn nhỏ hơn thời gian bắt đầu thì trả về false còn if sẽ trả về true
                     return response()->json([
                         'status' => false,
-                        'errors' =>['expires_at' => 'Expires date must be greater than Start at'],
+                        'errors' => ['expires_at' => 'Expires date must be greater than Start at'],
                     ]);
-
                 }
-
             }
             $discountCode = new DiscountCoupon();
             $discountCode->code = $request->code;
@@ -88,37 +86,34 @@ class DiscountCodeController extends Controller
                 'status' => true,
                 'message' => 'Discount coupon added successfully',
             ]);
-
-
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors(),
             ]);
         }
     }
-    public function show(Request $request){
-
-    }
-    public function edit($id, Request $request){
+    public function show(Request $request) {}
+    public function edit($id, Request $request)
+    {
         $discountCoupon = DiscountCoupon::find($id);
         return view('admin.coupon.edit', compact('discountCoupon'));
-
     }
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'code' => 'required',
-            'type' =>'required',
+            'type' => 'required',
             'discount_amount' => 'required',
             'status' => 'required'
 
         ]);
 
-        if($validator->passes()){
+        if ($validator->passes()) {
 
             $discountCode = DiscountCoupon::find($id);
-            if( $discountCode == null){
+            if ($discountCode == null) {
                 Session::flash('error', 'Discount coupon not found');
                 return response()->json([
                     'status' => true,
@@ -127,18 +122,16 @@ class DiscountCodeController extends Controller
             }
 
             // kiểm tra ngày kết thúc
-            if(!empty($request->start_at) && !empty($request->expires_at)){
+            if (!empty($request->start_at) && !empty($request->expires_at)) {
                 $expriesAt = Carbon::createFromFormat('Y-m-d H:i:s', $request->expires_at);
                 $startAt = Carbon::createFromFormat('Y-m-d H:i:s', $request->start_at);
 
-                if($expriesAt -> gt($startAt) == false){ //  kiểm tra xem expriesAt có lớn hơn thời gian $startAt hay không bằng gt(greater than), nếu thời gian hết hạn nhỏ hơn thời gian bắt đầu thì trả về false còn if sẽ trả về true
+                if ($expriesAt->gt($startAt) == false) { //  kiểm tra xem expriesAt có lớn hơn thời gian $startAt hay không bằng gt(greater than), nếu thời gian hết hạn nhỏ hơn thời gian bắt đầu thì trả về false còn if sẽ trả về true
                     return response()->json([
                         'status' => false,
-                        'errors' =>['expires_at' => 'Expires date must be greater than Start at'],
+                        'errors' => ['expires_at' => 'Expires date must be greater than Start at'],
                     ]);
-
                 }
-
             }
 
             $discountCode->code = $request->code;
@@ -162,10 +155,11 @@ class DiscountCodeController extends Controller
     }
 
 
-    public function destroy(Request $request, $id){
+    public function destroy(Request $request, $id)
+    {
         $discountCode = DiscountCoupon::find($id);
 
-        if( empty($discountCode)){
+        if (empty($discountCode)) {
             Session::flash('error', 'Discount coupon not found');
             return response()->json([
                 'status' => true,
@@ -173,12 +167,11 @@ class DiscountCodeController extends Controller
             ]);
         }
 
-        $discountCode -> delete();
+        $discountCode->delete();
         Session::flash('success', 'Discount coupon deleted successfully');
         return response()->json([
             'status' => true,
             'message' => 'Discount coupon deleted successfully',
         ]);
     }
-
 }

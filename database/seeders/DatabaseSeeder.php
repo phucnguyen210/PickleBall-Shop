@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@example.com',
             'password' => Hash::make("admin123"),
-            'role' => 1,
+            'role' => 0,
         ]);
         // Category::factory()->count(10)->create();
         // Brand::factory()->count(10)->create();

@@ -137,7 +137,7 @@
 
                 error: function(jqXHR, exception) {
                     console.log("something went wrong");
-                    // Hiển thị thông báo lỗi chi tiết
+                   
                     alert('Failed to create category. Please try again.');
                 }
             });
@@ -151,7 +151,7 @@
 
             $.ajax({
 
-                url: '{{ route('getSlug') }}', // Đảm bảo route đúng
+                url: '{{ route('getSlug') }}',
                 type: 'GET',
                 data: {
                     title: element.val()

@@ -4,10 +4,10 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="footer-card">
-					<h3>Get In Touch</h3>
-					<p>No dolore ipsum accusam no lorem. <br>
-					123 Street, New York, USA <br>
-					exampl@example.com <br>
+					<h3>Liên hệ</h3>
+					<p>bla  bla bla <br>
+					Cổ nhuế, Hà nội <br>
+					test@example.com <br>
 					000 000 0000</p>
 				</div>
 			</div>
@@ -28,11 +28,11 @@
 
 			<div class="col-md-4">
 				<div class="footer-card">
-					<h3>My Account</h3>
+					<h3>Tài khoản</h3>
 					<ul>
-						<li><a href="#" title="Sell">Login</a></li>
-						<li><a href="#" title="Advertise">Register</a></li>
-						<li><a href="#" title="Contact Us">My Orders</a></li>
+						<li><a href="#" title="Sell">Đăng nhập</a></li>
+						<li><a href="#" title="Advertise">Đăng ký</a></li>
+						<li><a href="#" title="Contact Us">Đơn của tôi</a></li>
 					</ul>
 				</div>
 			</div>

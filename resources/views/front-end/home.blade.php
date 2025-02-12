@@ -39,7 +39,7 @@
 
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">Badminton</h1>
+                                <h1 class="display-4 text-white mb-3">PickleBall</h1>
                                 {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                                 <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                             </div>
@@ -58,7 +58,7 @@
 
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">Badminton</h1>
+                                <h1 class="display-4 text-white mb-3">PickleBall</h1>
                                 {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                                 <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                             </div>
@@ -172,17 +172,17 @@
                                                 @if ($featuredProducts->qty > 0)
                                                     <a class="btn btn-dark" href="javascript:void(0);"
                                                         onclick="addToCart({{ $featuredProducts->id }})">
-                                                        <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                                                     </a>
                                                 @else
                                                     <a class="btn btn-dark" href="javascript:void(0);">
-                                                        <i class="fa fa-shopping-cart"></i> Out of stock
+                                                        <i class="fa fa-shopping-cart"></i> Hết hàng
                                                     </a>
                                                 @endif
                                             @else
                                                 <a class="btn btn-dark" href="javascript:void(0);"
                                                     onclick="addToCart({{ $featuredProducts->id }})">
-                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                                                 </a>
                                             @endif
 
@@ -249,17 +249,17 @@
                                             @if ( $latestProducts->track_qty == 'Yes')
                                                 @if ( $latestProducts->qty > 0)
                                                     <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$latestProducts->id}})">
-                                                        <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                                                     </a>
                                                 @else
                                                     <a class="btn btn-dark" href="javascript:void(0);">
-                                                        <i class="fa fa-shopping-cart"></i> Out of stock
+                                                        <i class="fa fa-shopping-cart"></i> Hết hàng
                                                     </a>
                                                 @endif
 
                                             @else
                                                 <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$latestProducts->id}})">
-                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                                                 </a>
                                             @endif
 

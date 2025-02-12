@@ -38,7 +38,7 @@ class AdminLoginController extends Controller
 
                 $admin = Auth::guard('admin')->user();
 
-                if ($admin && $admin->role == 1) {
+                if ($admin && $admin->role == 0) {
                     return redirect()->route('admin.dashboard')->with('success', 'welcome to dashboard');
                     $request->session()->regenerate(); // tái tạo lại 1 ID session cho phiên
 

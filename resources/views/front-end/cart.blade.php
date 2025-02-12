@@ -96,7 +96,7 @@
 
                         <div class="card-body">
                             <div class="sub-title">
-                                <h2 class="bg-white">Cart Summery</h3>
+                                <h2 class="bg-white">Giỏ hàng</h3>
                             </div>
                             <div class="d-flex justify-content-between pb-2">
                                 <div>Subtotal</div>
