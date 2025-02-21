@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
 
-            $table->string('coupon_code_id')->after('coupon_code');
-
+            $table->string('coupon_code_id')->after('coupon_code')->nullable();
         });
     }
 

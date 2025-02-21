@@ -4,7 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 
 use App\Http\Controllers\Controller;
-
+use App\Jobs\SendOrderEmailJob;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Country;
@@ -330,12 +330,23 @@ class CartController extends Controller
 
 
                 // orderMail($order->id, 'customer');
+                $order_info = [
+                    'order_id' => $order->id,
+                    'customer_name' => $order->last_name,
+                    'email' => $order->email,
+                    'product_name' => $orderItem->name,
+                    'total_price' => $orderItem->total,
+                ];
+
+                // Dispatch Job gửi email
+                SendOrderEmailJob::dispatch($order_info)->onQueue('emails');
+
 
                 Session::flash('success', 'Bạn đã đặt hàng thành công, Chúng tôi sẽ xử lý và gửi hàng trong thời gian ngắn nhất');
                 return response()->json([
                     'status' => true,
                     'order_id' => $order->id,
-                    'message' => 'Order saved successfully'
+                    'message' => 'Đơn hàng đã được đặt và email xác nhận đang được gửi.'
                 ]);
             }
         }
