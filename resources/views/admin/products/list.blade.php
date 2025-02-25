@@ -70,7 +70,7 @@
                                     @endif
                                 </td>
                                 <td><a href="{{ route('product.show', $item->id)}}">{{substr($item->title, 0, 40) }}</a></td>
-                                <td>${{ $item->price }}</td>
+                                <td>{{ number_format($item->price, 0, ',', '.') }} VNĐ</td>
                                 <td>{{ $item->qty }} left in Stock</td>
                                 <td>{{ substr($item->sku, 0, 20) }}</td>
                                 <td>

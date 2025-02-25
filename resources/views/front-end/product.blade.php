@@ -324,8 +324,8 @@
                                 <div class="card-body text-center mt-3">
                                     <a class="h6 link" href="{{route('shop.product', $relatedProducts->slug)}}"> {{ Str::limit($relatedProducts->title, 40) }}</a>
                                     <div class="price mt-2">
-                                        <span class="h5"><strong>{{$relatedProducts->price}}</strong></span>
-                                        <span class="h6 text-underline"><del>{{$relatedProducts->compare_price}}</del></span>
+                                        <span class="h5"><strong>{{number_format($featuredProducts->price, 0, ',', '.')}}</strong></span>
+                                        <span class="h6 text-underline"><del>{{number_format($featuredProducts->compare_price, 0, ',', '.')}}</del></span>
                                     </div>
                                 </div>
                             </div>

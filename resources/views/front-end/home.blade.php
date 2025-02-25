@@ -194,12 +194,12 @@
                                         <div class="price mt-2">
                                             @if ($featuredProducts->compare_price > 0)
                                                 <span
-                                                    class="h5"><strong>${{ $featuredProducts->price }}</strong></span>
+                                                    class="h5"><strong>{{number_format($featuredProducts->price, 0, ',', '.')}}</strong></span>
                                                 <span
-                                                    class="h6 text-underline"><del>${{ $featuredProducts->compare_price }}</del></span>
+                                                    class="h6 text-underline"><del>{{ number_format($featuredProducts->compare_price, 0, ',', '.') }}</del></span>
                                             @else
                                                 <span
-                                                    class="h5"><strong>${{ $featuredProducts->price }}</strong></span>
+                                                    class="h5"><strong>{{ number_format($featuredProducts->price, 0, ',', '.') }}</strong></span>
                                             @endif
 
                                         </div>
@@ -270,11 +270,11 @@
                                             href="{{ route('shop.product', $latestProducts->slug) }}">{{ $latestProducts->title }}</a>
                                         <div class="price mt-2">
                                             @if ($latestProducts->compare_price > 0)
-                                                <span class="h5"><strong>${{ $latestProducts->price }}</strong></span>
+                                                <span class="h5"><strong>{{ number_format($latestProducts->price, 0, ',', '.') }}</strong></span>
                                                 <span
-                                                    class="h6 text-underline"><del>${{ $latestProducts->compare_price }}</del></span>
+                                                    class="h6 text-underline"><del>{{ number_format($latestProducts->compare_price, 0, ',', '.')}}</del></span>
                                             @else
-                                                <span class="h5"><strong>${{ $latestProducts->price }}</strong></span>
+                                                <span class="h5"><strong>   {{ number_format($latestProducts->price, 0, ',', '.') }}</strong></span>
                                             @endif
                                         </div>
                                     </div>

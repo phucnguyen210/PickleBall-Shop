@@ -61,7 +61,7 @@
                                                 <h2>{{$cart->name}}</h2>
                                             </div>
                                         </td>
-                                        <td>${{$cart->price}}</td>
+                                        <td>{{number_format($cart->price,0,',','.')}}</td>
                                         <td>
                                             <div class="input-group quantity mx-auto" style="width: 100px;">
                                                 <div class="input-group-btn">
@@ -78,7 +78,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            ${{ $cart->price*$cart->qty}}
+                                            {{ number_format($cart->price*$cart->qty, 0, ',', '.')}}
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-danger" onclick="deleteCart('{{$cart->rowId}}')"><i class="fa fa-times"></i></button>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="d-flex justify-content-between pb-2">
                                 <div>Subtotal</div>
-                                <div>${{Cart::subtotal()}}</div>
+                                <div>{{Cart::subtotal()}}</div>
                             </div>
 
                             <div class="pt-3">
