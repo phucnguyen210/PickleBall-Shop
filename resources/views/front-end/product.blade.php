@@ -68,8 +68,8 @@
                             </div>
                             <small class="pt-1">({{($product->product_ratings_count > 0) ? $product->product_ratings_count : '0'}} Reviews)</small>
                         </div>
-                        <h2 class="price text-secondary"><del>${{number_format($product->compare_price, 2)}}</del></h2>
-                        <h2 class="price ">${{number_format($product->price, 2)}}</h2>
+                        <h2 class="price text-secondary"><del>{{format_currency($product->compare_price)}}</del></h2>
+                        <h2 class="price ">{{format_currency($product->price)}}</h2>
 
                         {!! $product->short_description !!}
                         @if ( $product->track_qty == 'Yes')

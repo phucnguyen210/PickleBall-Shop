@@ -31,28 +31,7 @@ if (!function_exists('formatPhoneNumber')) {
     }
 }
 
-function orderMail($orderId, $userType = "customer")
-{
-    $order = Order::where('id', $orderId)->with('order_items')->first();
 
-    if ($userType == "customer") {
-
-        $subject = 'Thank for you order';
-        $email = $order->email;
-    } else {
-
-        $subject = 'You have received a new order';
-        $email = env('ADMIN_EMAIL');
-    }
-    $mailData = [
-        'subject' =>  $subject,
-        'order' => $order,
-        'userType' => $userType,
-    ];
-
-
-    Mail::to($email)->send(new OrderMail($mailData));
-}
 
 function getCountry($id)
 {
@@ -64,4 +43,11 @@ function staticPage()
 {
     $page = Page::where('status', 1)->orderBy('name', 'ASC')->get();
     return $page;
+}
+
+if (!function_exists('format_currency')) {
+    function format_currency($amount, $currency = 'VND')
+    {
+        return number_format($amount, 0, ',', '.') . " $currency";
+    }
 }
