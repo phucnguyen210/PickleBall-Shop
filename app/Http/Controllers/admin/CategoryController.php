@@ -29,7 +29,7 @@ class CategoryController extends Controller
         }
         $categories = $query->paginate(10);
 
-        return view('admin.categories.list', compact('categories'));
+        return view('admin.categories.list');
     }
 
     /**
@@ -78,7 +78,7 @@ class CategoryController extends Controller
                 // create instance
                 $dPath = public_path() . '/uploads/category/thumb/' . $newImageName;
                 $img = Image::make($sPath);
-                $img->resize(300, 300, function($constraint){
+                $img->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->orientate();
                 $img->save($dPath);
@@ -114,14 +114,13 @@ class CategoryController extends Controller
     public function edit($id)
 
     {
-        $categories = Category::findOrFail($id);
-        if(empty($categories)){
+        $category = Category::findOrFail($id);
+        if (empty($category)) {
             Session::flash('error', 'categories not found!');
             return redirect()->route('admin.categories');
-        }else{
-            return view('admin.categories.edit', compact('categories'));
+        } else {
+            return view('admin.categories.edit', compact('category'));
         }
-
     }
 
     /**
@@ -203,8 +202,6 @@ class CategoryController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-
-
     }
 
     /**

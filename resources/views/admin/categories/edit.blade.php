@@ -30,14 +30,14 @@
                                 <div class="mb-3">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control"
-                                        value="{{ $categories->name }}" placeholder="Name">
+                                        value="{{ $category->name }}" placeholder="Name">
                                     <p class="invalid-feedback"></p>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label for="slug">Slug</label>
-                                    <input type="text" name="slug" id="slug" value="{{ $categories->slug }}"
+                                    <input type="text" name="slug" id="slug" value="{{ $category->slug }}"
                                         readonly class="form-control" placeholder="Slug">
                                     <p class="invalid-feedback"></p>
                                 </div>
@@ -47,9 +47,9 @@
                                 <div class="mb-3">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
-                                        <option value="1" {{ $categories->status == 1 ? 'selected' : '' }}>Active
+                                        <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Active
                                         </option>
-                                        <option value="0" {{ $categories->status == 0 ? 'selected' : '' }}>Block
+                                        <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Block
                                         </option>
                                     </select>
                                 </div>
@@ -58,8 +58,8 @@
                                 <div class="mb-3">
                                     <label for="showHome">Show on home</label>
                                     <select name="showHome" id="showHome" class="form-control">
-                                        <option {{ $categories->showHome == 'Yes' ? 'selected' : '' }} value="Yes">Yes</option>
-                                        <option {{ $categories->showHome == 'No' ? 'selected' : '' }}  value="No">No</option>
+                                        <option {{ $category->showHome == 'Yes' ? 'selected' : '' }} value="Yes">Yes</option>
+                                        <option {{ $category->showHome == 'No' ? 'selected' : '' }}  value="No">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -79,10 +79,10 @@
                             </div>
                         </div>
 
-                        @if (!empty($categories->image))
+                        @if (!empty($category->image))
                             <div>
                                 <img width="250" height="250"
-                                    src="{{ asset('uploads/category/thumb/' . $categories->image) }}" alt="">
+                                    src="{{ asset('uploads/category/thumb/' . $category->image) }}" alt="">
                             </div>
                         @endif
 
@@ -108,7 +108,7 @@
             let element = $(this);
 
             $.ajax({
-                url: '{{ route('admin.categories.update', $categories->id) }}', // Đảm bảo route đúng
+                url: '{{ route('admin.categories.update', $category->id) }}', // Đảm bảo route đúng
                 type: 'PUT',
                 data: element.serializeArray(),
                 dataType: 'json',
