@@ -96,31 +96,40 @@
 				  <i class="navbar-toggler-icon fas fa-bars"></i>
     		</button>
     		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        			<!-- <li class="nav-item">
-          				<a class="nav-link active" aria-current="page" href="index.php" title="Products">Home</a>
-        			</li> -->
-                    @if ((getCategory()->isNotEmpty()))
-                        @foreach (getCategory() as $category)
-                            <li class="nav-item dropdown">
-                                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $category->name}}
-                                </button>
-                                @if ( $category->sub_categories->isNotEmpty())
-                                    <ul class="dropdown-menu dropdown-menu-dark">
-                                        @foreach ( $category->sub_categories as $sub_category)
-                                            <li><a class="dropdown-item nav-link" href="{{ route('front.shop', [$category->slug, $sub_category->slug]) }}">{{$sub_category->name}}</a></li>
-                                        @endforeach
-                                    </ul>
-
-                                @endif
-
-                            </li>
-
-                        @endforeach
-                    @endif
-
-      			</ul>
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					@if(getCategory()->isNotEmpty())
+						@foreach(getCategory() as $category)
+							<li class="nav-item dropdown">
+								<!-- Nếu danh mục không có con thì hiển thị link trực tiếp,
+									 nếu có con thì chuyển sang dropdown -->
+								@if($category->sub_categories->isEmpty())
+									<a href="{{ route('front.shop', $category->slug) }}"
+									   class="nav-link {{ (isset($categorySelected) && $categorySelected == $category->id) ? 'text-primary' : '' }}">
+										{{ $category->name }}
+									</a>
+								@else
+									<a class="nav-link dropdown-toggle {{ (isset($categorySelected) && $categorySelected == $category->id) ? 'text-primary' : '' }}"
+									   href="{{ route('front.shop', $category->slug) }}"
+									   id="navbarDropdown-{{ $category->id }}"
+									   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										{{ $category->name }}
+									</a>
+									<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown-{{ $category->id }}">
+										@foreach($category->sub_categories as $sub_category)
+											<li>
+												<a class="dropdown-item {{ (isset($subCategorySelected) && $subCategorySelected == $sub_category->id) ? 'text-primary' : '' }}"
+												   href="{{ route('front.shop', [$category->slug, $sub_category->slug]) }}">
+													{{ $sub_category->name }}
+												</a>
+											</li>
+										@endforeach
+									</ul>
+								@endif
+							</li>
+						@endforeach
+					@endif
+				</ul>
+				
       		</div>
 			<div class="right-nav py-0">
 				<a href="{{ route('front.cart') }}" class="ml-3 d-flex pt-2">

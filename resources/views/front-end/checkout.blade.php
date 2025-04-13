@@ -228,14 +228,14 @@
     $("#orderForm").submit(function(event){
         event.preventDefault();
         let element = $(this);
-        $('button[type="submit"]').prop('disabled', true);
+        $('button[type="submit"]');
         $.ajax({
             url: `{{ route('front.processCheckout')}}`,
             type: 'POST',
             data: element.serializeArray(),
             dataType: 'json',
             success: function (response){
-            $('button[type="submit"]').prop('disabled', false);
+            $('button[type="submit"]');
 
                 function handleFieldError(field, errorMessage){
                         if(errorMessage){
