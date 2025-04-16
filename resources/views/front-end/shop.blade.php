@@ -94,9 +94,9 @@
                 </div>
                 <div class="col-md-9">
                     @if(request()->has('search') && request()->search != '')
-                        <p class=" text-center">
-                            Có <strong>{{ $totalResults }}</strong> kết quả phù hợp với từ khóa: "<strong>{{ $searchTerm }}</strong>"
-                        </p>
+                    <p class="text-center">
+                        Có <span id="search-result-count">{{ $totalResults }}</span> kết quả phù hợp với từ khóa: "<strong>{{ $searchTerm }}</strong>"
+                    </p>
                     @endif
                     <div class="row pb-3">
                         <div class="col-12 pb-1">
