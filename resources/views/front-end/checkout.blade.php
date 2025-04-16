@@ -19,6 +19,8 @@
             <form action="" id="orderForm" method="POST" name="orderForm">
                 <div class="row">
                     <div class="col-md-8">
+                        <div id="error-message"></div>
+
                         <div class="sub-title">
                             <h2>Shipping Address</h2>
                         </div>
@@ -259,8 +261,10 @@
                     handleFieldError('city', errors.city);
                     handleFieldError('state', errors.state);
                     handleFieldError('zip', errors.zip);
-
-
+                        // Render lên div lỗi tổng (ở đầu form)
+                        document.querySelector("#error-message").innerHTML = `
+                            <div class="alert alert-danger">${response.message_general}</div>
+                        `;
                 }else{
                     alert(response.message);
                     window.location.href=`{{ route('front.thankyou', ':order_id')}}`.replace(':order_id', response.order_id);
@@ -299,6 +303,7 @@
                     $("#grandTotal").html('$'+response.grandTotal);
                     $("#discount").html('$'+response.discount);
                     $("#discount-response-wrapper").html(response.discountString);
+                    $("#discount-response-wrapper").html("<span class='text-success'>" + response.message + "</span>");
 
                 }else{
                     // alert('coupons expires!');

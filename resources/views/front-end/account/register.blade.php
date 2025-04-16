@@ -18,6 +18,8 @@
             <div class="login-form">
                 <form action="" method="post" name="registrantionForm" id="registrantionForm">
                     <h4 class="modal-title">Register Now</h4>
+                    <div id="error-message"></div>
+
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Name" id="name" name="name">
                         <p class="error"></p>
@@ -29,6 +31,8 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone">
+                        <p class="error"></p>
+
                     </div>
                     <div class="form-group" style="position: relative;" >
                         <input type="password" class="form-control" placeholder="Password" id="password" name="password">
@@ -77,6 +81,18 @@
                         $("#name").removeClass('is-invalid');
 
                     }
+
+                    // phone
+                    if(errors.email){
+                        $("#phone").siblings("p").addClass('invalid-feedback').html(errors.phone);
+                        $("#phone").addClass('is-invalid');
+
+                    }else{
+                        $("#email").siblings("p").removeClass('invalid-feedback').html('');
+                        $("#email").removeClass('is-invalid');
+
+                    }
+
                     // email
                     if(errors.email){
                         $("#email").siblings("p").addClass('invalid-feedback').html(errors.email);
@@ -97,7 +113,9 @@
                         $("password").removeClass('is-invalid');
 
                     }
-
+                    document.querySelector("#error-message").innerHTML = `
+                            <div class="alert alert-danger">${response.message}</div>
+                        `;
                 }else{
                     $("#name").siblings("p").removeClass('invalid-feedback').html('');
                     $("#name").removeClass('is-invalid');

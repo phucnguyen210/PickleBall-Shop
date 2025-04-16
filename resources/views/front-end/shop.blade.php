@@ -17,6 +17,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 sidebar">
+
                     <div class="sub-title">
                         <h2>Categories</h3>
                     </div>
@@ -92,6 +93,11 @@
                     </div>
                 </div>
                 <div class="col-md-9">
+                    @if(request()->has('search') && request()->search != '')
+                        <p class=" text-center">
+                            Có <strong>{{ $totalResults }}</strong> kết quả phù hợp với từ khóa: "<strong>{{ $searchTerm }}</strong>"
+                        </p>
+                    @endif
                     <div class="row pb-3">
                         <div class="col-12 pb-1">
                             <div class="d-flex align-items-center justify-content-end mb-4">

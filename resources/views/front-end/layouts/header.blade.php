@@ -62,7 +62,7 @@
 				</a>
 			</div>
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-				
+
 				<a href="{{ route('account.profile')}}" class="nav-link text-dark">
                     @if (Auth::check())
                         {{Auth::user()->name}}
@@ -129,7 +129,7 @@
 						@endforeach
 					@endif
 				</ul>
-				
+
       		</div>
 			<div class="right-nav py-0">
 				<a href="{{ route('front.cart') }}" class="ml-3 d-flex pt-2">

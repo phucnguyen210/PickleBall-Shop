@@ -25,7 +25,6 @@ class ShopController extends Controller
         $products = Product::where('status', 1)->with('product_images');
 
 
-
         $categorySelected = '';
         $subCategorySelected = '';
 
@@ -94,6 +93,8 @@ class ShopController extends Controller
         $data['price_Max'] = (intval($request->get('price_max')) == 0 ? 10000 : intval($request->get('price_max'))); // gán giá trị max vào biến để gọi lại bên client
         $data['sort'] =  $request->get('sort');
 
+        $data['searchTerm'] = $request->get('search');
+        $data['totalResults'] = $product->total();
 
         return view('front-end.shop', $data);
     }

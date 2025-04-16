@@ -378,4 +378,24 @@
         });
     });
 </script>
+<script>
+    function addToCart(productId) {
+        fetch("/add-to-cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+            },
+            body: JSON.stringify({ id: productId })
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message); // ✅ thông báo alert
+            })
+            .catch(error => {
+                alert("Có lỗi xảy ra khi thêm vào giỏ hàng!");
+                console.error(error);
+            });
+    }
+</script>
 @endsection

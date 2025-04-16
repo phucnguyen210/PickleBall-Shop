@@ -34,6 +34,7 @@ class AuthController extends Controller
         $validator = Validator::make( $request->all(), [
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
+            'phone' => 'required|phone:VN',
             'password' => 'required|min:8|confirmed',
         ]);
 
@@ -62,6 +63,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => false,
                 'errors'=> $validator->errors(),
+                'message' => 'Register falled ',
             ]);
         }
     }

@@ -215,6 +215,7 @@ class CartController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Please fill in the missing fields',
+                'message_general' => 'Order failed',
                 'errors' => $validator->errors(),
             ]);
         } else {
