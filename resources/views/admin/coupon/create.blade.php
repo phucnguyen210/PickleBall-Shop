@@ -181,6 +181,7 @@
 
                     } else {
                         var errors = response['errors'];
+                       // code
                         if (errors['code']) {
                             $('#code').addClass('is-invalid').siblings('p.invalid-feedback')
                                 .html(errors['code']);
@@ -188,6 +189,9 @@
                             $('#code').removeClass('is-invalid').siblings('p.invalid-feedback')
                                 .html("");
                         }
+                        // discount_amount
+
+
                         if (errors['discount_amount']) {
                             $('#discount_amount').addClass('is-invalid').siblings('p.invalid-feedback')
                                 .html(errors['discount_amount']);
@@ -195,6 +199,8 @@
                             $('#discount_amount').removeClass('is-invalid').siblings('p.invalid-feedback')
                                 .html("");
                         }
+
+                        // start_at
                         if (errors['start_at']) {
                             $('#start_at').addClass('is-invalid').siblings('p.invalid-feedback')
                                 .html(errors['start_at']);
@@ -202,6 +208,46 @@
                             $('#start_at').removeClass('is-invalid').siblings('p.invalid-feedback')
                                 .html("");
                         }
+
+                    
+
+                        // max_use_users
+                        if (errors['max_uses_user']) {
+                            $('#max_uses_user').addClass('is-invalid').siblings('p.invalid-feedback')
+                                .html(errors['max_uses_user']);
+                        } else {
+                            $('#max_uses_user').removeClass('is-invalid').siblings('p.invalid-feedback')
+                                .html("");
+                        }
+
+                         // max_use
+                         if (errors['max_uses']) {
+                            $('#max_uses').addClass('is-invalid').siblings('p.invalid-feedback')
+                                .html(errors['max_uses']);
+                        } else {
+                            $('#max_uses').removeClass('is-invalid').siblings('p.invalid-feedback')
+                                .html("");
+                        }
+
+                         // min_amount
+                         if (errors['min_amount']) {
+                            $('#min_amount').addClass('is-invalid').siblings('p.invalid-feedback')
+                                .html(errors['min_amount']);
+                        } else {
+                            $('#min_amount').removeClass('is-invalid').siblings('p.invalid-feedback')
+                                .html("");
+                        }
+
+                         // name
+                         if (errors['name']) {
+                            $('#name').addClass('is-invalid').siblings('p.invalid-feedback')
+                                .html(errors['name']);
+                        } else {
+                            $('#name').removeClass('is-invalid').siblings('p.invalid-feedback')
+                                .html("");
+                        }
+
+                        //expires_at
                         if (errors['expires_at']) {
                             $('#expires_at').addClass('is-invalid').siblings('p.invalid-feedback')
                                 .html(errors['expires_at']);

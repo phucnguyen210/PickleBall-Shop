@@ -35,6 +35,12 @@ class DiscountCodeController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'type' => 'required',
+            'max_uses' => 'required',
+            'max_uses_user' => 'required',
+            'min_amount' => 'required',
+            'name' => 'required',
+            'start_at' => 'required',
+            'expires_at' => 'required',
             'discount_amount' => 'required',
             'status' => 'required'
         ]);
