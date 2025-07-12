@@ -69,32 +69,32 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <input type="text" name="appartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value="{{ (!empty($customerAddress)) ? $customerAddress->apartment : ''}}">
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-md-12">--}}
+{{--                                        <div class="mb-3">--}}
+{{--                                            <input type="text" name="appartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value="{{ (!empty($customerAddress)) ? $customerAddress->apartment : ''}}">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="city" id="city" class="form-control" placeholder="City" value="{{ (!empty($customerAddress)) ? $customerAddress->city : ''}}">
-                                            <p></p>
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-md-4">--}}
+{{--                                        <div class="mb-3">--}}
+{{--                                            <input type="text" name="city" id="city" class="form-control" placeholder="City" value="{{ (!empty($customerAddress)) ? $customerAddress->city : ''}}">--}}
+{{--                                            <p></p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="state" id="state" class="form-control" placeholder="State" value="{{ (!empty($customerAddress)) ? $customerAddress->state : ''}}">
-                                            <p></p>
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-md-4">--}}
+{{--                                        <div class="mb-3">--}}
+{{--                                            <input type="text" name="state" id="state" class="form-control" placeholder="State" value="{{ (!empty($customerAddress)) ? $customerAddress->state : ''}}">--}}
+{{--                                            <p></p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value="{{ (!empty($customerAddress)) ? $customerAddress->zip : ''}}">
-                                            <p></p>
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-md-4">--}}
+{{--                                        <div class="mb-3">--}}
+{{--                                            <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value="{{ (!empty($customerAddress)) ? $customerAddress->zip : ''}}">--}}
+{{--                                            <p></p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
@@ -117,14 +117,15 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sub-title">
-                            <h2>Order Summery</h3>
+                            <h2>Order Summery</h2>
                         </div>
                         <div class="card cart-summery">
                             <div class="card-body">
                                 @foreach (Cart::content() as $item)
                                     <div class="d-flex justify-content-between pb-2">
                                         <div class="h6">{{$item->name}} X {{$item->qty}}</div>
-                                        <div class="h6  ">$ {{$item->price*$item->qty}}</div>
+                                        <div class="h6">{{ number_format($item->price * $item->qty, 0, ',', '.') }}VND</div>
+
                                     </div>
                                 @endforeach
 
@@ -132,19 +133,23 @@
                                 </div>
                                 <div class="d-flex justify-content-between summery-end">
                                     <div class="h6"><strong>Subtotal</strong></div>
-                                    <div class="h6"><strong>${{Cart::subtotal()}}</strong></div>
+                                    <div class="h6"><strong>{{ number_format((float)str_replace(',', '', Cart::subtotal()), 0, ',', '.') }}VND</strong></div>
+
                                 </div>
                                 <div class="d-flex justify-content-between summery-end">
                                     <div class="h6"><strong>Discount</strong></div>
-                                    <div class="h6" ><strong id="discount">${{ number_format($discount, 2)}}</strong></div>
+                                    <div class="h6"><strong id="discount">{{ number_format((float)$discount, 0, ',', '.') }}VND</strong></div>
+
                                 </div>
                                 <div class="d-flex justify-content-between mt-2">
                                     <div class="h6"><strong>Shipping</strong></div>
-                                    <div class="h6"><strong id="shippingCharge">${{ number_format($totalShippingCharge, 2)}}</strong></div>
+                                    <div class="h6"><strong id="shippingCharge">{{ number_format((float)$totalShippingCharge, 0, ',', '.') }}VND </strong></div>
+
                                 </div>
                                 <div class="d-flex justify-content-between mt-2 summery-end">
                                     <div class="h5"><strong>Total</strong></div>
-                                    <div class="h5"><strong id="grandTotal">${{number_format($grandTotal, 2)}}</strong></div>
+                                    <div class="h5"><strong id="grandTotal">{{ number_format((float)$grandTotal, 0, ',', '.') }}VND</strong></div>
+
                                 </div>
                             </div>
                             <div class="input-group apply-coupon mt-4">
@@ -155,7 +160,7 @@
                             <div id="discount-response-wrapper">
                                 @if (Session::has('code'))
                                     <div id="discount-response" class=" mt-4">
-                                        <strong>{{ Session::get('code')->code}}</strong>
+                                        <strong>{{ Session::get('code')->code}}</strong>z
                                         <a id="remove-discount" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
 
                                     </div>
@@ -202,7 +207,7 @@
                         <!-- CREDIT CARD FORM ENDS HERE -->
 
                     </div>
-                </div>
+{{--                </div>--}}
             </form>
         </div>
     </section>
@@ -290,29 +295,32 @@
         });
     });
 
-    $("#apply-discount").click(function(){
-
-        $.ajax({
-            url:`{{ route('front.applyDiscount') }}`,
-            type: 'POST',
-            data: {code: $("#discount_code").val(), country_id: $("#country").val()},
-            dataType: 'json',
-            success: function(response){
-                if(response.status === true){
-                    $("#shippingCharge").html('$'+response.shippingCharge);
-                    $("#grandTotal").html('$'+response.grandTotal);
-                    $("#discount").html('$'+response.discount);
-                    $("#discount-response-wrapper").html(response.discountString);
-                    $("#discount-response-wrapper").html("<span class='text-success'>" + response.message + "</span>");
-
-                }else{
-                    // alert('coupons expires!');
-                    $("#discount-response-wrapper").html("<span class='text-danger'>"+response.message+"</span>");
-
-                }
-            }
-        });
+    $("#apply-discount").click(function () {
+    $.ajax({
+        url: `{{ route('front.applyDiscount') }}`,
+        type: 'POST',
+        data: {
+            code: $("#discount_code").val(),
+            country_id: $("#country").val()
+        },
+        dataType: 'json',
+        success: function (response) {
+    console.log(response);  // xem server trả về gì
+    if (response.status === true) {
+        $("#shippingCharge").html('$' + response.shippingCharge);
+        $("#grandTotal").html('$' + response.grandTotal);
+        $("#discount").html('$' + response.discount);
+        // nếu muốn hiển thị message thành công
+        $("#discount-response-wrapper").html(`
+            ${response.discountString}
+            <span class="text-success">${response.message || 'Coupon applied successfully 123'}</span>
+        `);
+    } else {
+        $("#discount-response-wrapper").html("<span class='text-danger'>" + response.message + "</span>");
+    }
+}
     });
+});
 
     $('body').on('click',"#remove-discount",(function(){
 

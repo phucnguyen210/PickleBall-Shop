@@ -91,12 +91,13 @@ class AuthController extends Controller
 
             }else{
 
-                return redirect()->route('account.login')->withInput($request->only('email'))->with('error', 'Email or password not correct!');
+                return redirect()->route('account.login')->withInput($request->only('email'))->with(['error'=> 'Email or password not correct!']);
             }
         }else{
             return redirect()->route('account.login')
                 ->withErrors($validator)
-                ->withInput($request->only('email'));
+                ->withInput($request->only('email'))
+                ->with(['error'=> 'Email or password not correct!']);
         }
     }
 

@@ -61,14 +61,14 @@
 <script>
     $("#registrantionForm").submit( function(event){
         event.preventDefault(); // ngăn chặn hành vi mặc định của form
-        $("button[type='submit']").prop('disabled', true);
+        // $("button[type='submit']").prop('disabled', true);
         $.ajax({
             url: `{{ route('account.processRegister') }}`,
             type: 'POST',
             data: $(this).serializeArray(),
             dataType: 'json',
             success: function(response){
-                $("button[type='submit']").prop('disabled', false);
+                // $("button[type='submit']").prop('disabled', false);
                 let errors = response.errors;
                 if(response.status === false){
                     // name
@@ -88,8 +88,8 @@
                         $("#phone").addClass('is-invalid');
 
                     }else{
-                        $("#email").siblings("p").removeClass('invalid-feedback').html('');
-                        $("#email").removeClass('is-invalid');
+                        $("#phone").siblings("p").removeClass('invalid-feedback').html('');
+                        $("#phone").removeClass('is-invalid');
 
                     }
 

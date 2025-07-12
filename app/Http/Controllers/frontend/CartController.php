@@ -425,6 +425,7 @@ class CartController extends Controller
                 'grandTotal' => number_format($subTotal - $discount, 2),
                 'discount' => $discount,
                 'discountString' => $discountString,
+                'message' => 'Coupon applied successfully',
                 'shippingCharge' => 0
 
             ]);

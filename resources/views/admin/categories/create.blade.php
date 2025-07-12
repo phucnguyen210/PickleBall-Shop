@@ -18,6 +18,8 @@
     <section class="content">
         <!-- Default box -->
         <div class="container-fluid">
+            <div id="error-message"></div>
+
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="" id="categoryForm" name="categoryForm" enctype="multipart/form-data">
@@ -118,6 +120,9 @@
                         element[0].reset();
 
                     } else {
+                        document.querySelector("#error-message").innerHTML = `
+                            <div class="alert alert-danger">${response.message}</div>
+                        `;
                         var errors = response['errors'];
                         if (errors['name']) {
                             $('#name').addClass('is-invalid').siblings('p.invalid-feedback')

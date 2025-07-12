@@ -38,7 +38,6 @@ class DiscountCodeController extends Controller
             'max_uses' => 'required',
             'max_uses_user' => 'required',
             'min_amount' => 'required',
-            'name' => 'required',
             'start_at' => 'required',
             'expires_at' => 'required',
             'discount_amount' => 'required',
@@ -96,6 +95,7 @@ class DiscountCodeController extends Controller
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors(),
+                'message' => "Add coupon failed"
             ]);
         }
     }

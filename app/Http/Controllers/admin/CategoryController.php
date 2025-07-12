@@ -96,6 +96,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => false, // nếu không thỏa mãn các đk bắt buộc thì status sẽ được gán là false và gửi qua ajax để xử lý
                 'errors' => $validator->errors(),
+                'message' => 'Create category failled'
             ]);
         }
     }

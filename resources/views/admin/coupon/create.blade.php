@@ -18,7 +18,10 @@
     <section class="content">
         <!-- Default box -->
         <div class="container-fluid">
+            <div id="error-message"></div>
+
             <div class="card">
+
                 <div class="card-body">
                     <form method="POST" action="" id="discountForm" name="discountForm" enctype="multipart/form-data">
                         @csrf
@@ -166,7 +169,6 @@
                     // console.log(response); // Kiểm tra phản hồi từ server
 
                     if (response["status"] === true) {
-                        window.location.href = "{{ route('coupons.index') }}";
 
                         $('#code').removeClass('is-invalid').siblings('p.invalid-feedback')
                             .html("");
@@ -175,11 +177,16 @@
                             .html("");
 
                         // Hiển thị thông báo thành công
-                        alert('Discount coupons created successfully!');
+                        alert(response.message);
+                        window.location.href = "{{ route('coupons.index') }}";
+
                         // Xóa giá trị trong form
                         element[0].reset();
 
                     } else {
+                        document.querySelector("#error-message").innerHTML = `
+                            <div class="alert alert-danger">${response.message}</div>
+                        `;
                         var errors = response['errors'];
                        // code
                         if (errors['code']) {
@@ -209,7 +216,7 @@
                                 .html("");
                         }
 
-                    
+
 
                         // max_use_users
                         if (errors['max_uses_user']) {
@@ -238,14 +245,7 @@
                                 .html("");
                         }
 
-                         // name
-                         if (errors['name']) {
-                            $('#name').addClass('is-invalid').siblings('p.invalid-feedback')
-                                .html(errors['name']);
-                        } else {
-                            $('#name').removeClass('is-invalid').siblings('p.invalid-feedback')
-                                .html("");
-                        }
+
 
                         //expires_at
                         if (errors['expires_at']) {
